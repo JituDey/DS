@@ -161,6 +161,37 @@ class Tree{
 		System.out.println();
 	}
 	
+	public void zigzagTraversal(Node root){
+		if(root==null)
+			return;
+		Stack<Node> currentLvl = new Stack<Node>();
+		Stack<Node> nextLvl = new Stack<Node>();
+		currentLvl.push(root);
+		while(!currentLvl.isEmpty() || !nextLvl.isEmpty()){
+			while(!currentLvl.isEmpty()){
+				Node n = currentLvl.pop();
+				System.out.print(n.data + " ");
+				if(n.left!=null){
+					nextLvl.push(n.left);
+				}
+				if(n.right!=null){
+					nextLvl.push(n.right);
+				}
+			}
+			while(!nextLvl.isEmpty()){
+				Node n = nextLvl.pop();
+				System.out.print(n.data + " ");
+				if(n.right!=null){
+					currentLvl.push(n.right);
+				}
+				if(n.left!=null){
+					currentLvl.push(n.left);
+				}
+			}
+		}
+		System.out.println();
+	}
+	
 	public static void main(String[] args) {
 		Tree t = new Tree();
 		t.createTree(new int[]{10,8,15,1,9,11,17});
@@ -177,6 +208,7 @@ class Tree{
 		t.levelOrderTraversalLineByLine(root);
 		System.out.println("--------levelOrderTraversalLineByLine2Q----------");
 		t.levelOrderTraversalLineByLine2Q(root);
-		
+		System.out.println("--------zigzagTraversal----------");
+		t.zigzagTraversal(root);
 	}
 }
