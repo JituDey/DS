@@ -1,3 +1,4 @@
+import java.util.Stack;
 import java.util.Queue;
 import java.util.LinkedList;
 
@@ -105,17 +106,77 @@ class Tree{
 		}
 	}
 	
+	public void levelOrderTraversalLineByLine2Q(Node root){
+		if(root==null)
+			return;
+		Queue<Node> q1 = new LinkedList<Node>();
+		Queue<Node> q2 = new LinkedList<Node>();
+		q1.add(root);
+		while(!q1.isEmpty() || !q2.isEmpty()){
+			System.out.println("");
+			while(!q1.isEmpty()){
+				Node n = q1.remove();
+				System.out.print(n.data + " ");
+				if(n.left!=null){
+					q2.add(n.left);
+				}
+				if(n.right!=null){
+					q2.add(n.right);
+				}
+			}
+			System.out.println("");
+			while(!q2.isEmpty()){
+				Node n = q2.remove();
+				System.out.print(n.data + " ");
+				if(n.left!=null){
+					q1.add(n.left);
+				}
+				if(n.right!=null){
+					q1.add(n.right);
+				}
+			}
+		}
+	}
+	
+	public void levelOrderTraversalReverse(Node root){
+		if(root==null)
+			return;
+		Queue<Node> q = new LinkedList<Node>();
+		Stack<Node> s = new Stack<Node>();
+		q.add(root);
+		
+		while(!q.isEmpty()){
+			Node n = q.remove();
+			s.push(n);
+			if(n.right!=null){
+				q.add(n.right);
+			}
+			if(n.left!=null){
+				q.add(n.left);
+			}
+		}
+		while(!s.isEmpty()){
+			System.out.print(s.pop().data + " ");
+		}
+		System.out.println();
+	}
+	
 	public static void main(String[] args) {
 		Tree t = new Tree();
 		t.createTree(new int[]{10,8,15,1,9,11,17});
 		t.inorderTraversal(root);
-		System.out.println("------------------");
+		System.out.println("-------preorderTraversal-----------");
 		t.preorderTraversal(root);
-		System.out.println("------------------");
+		System.out.println("--------postorderTraversal----------");
 		t.postorderTraversal(root);
-		System.out.println("------------------");
+		System.out.println("-------levelOrderTraversal-----------");
 		t.levelOrderTraversal(root);
-		System.out.println("------------------");
+		System.out.println("--------levelOrderTraversalReverse----------");
+		t.levelOrderTraversalReverse(root);
+		System.out.println("--------levelOrderTraversalLineByLine----------");
 		t.levelOrderTraversalLineByLine(root);
+		System.out.println("--------levelOrderTraversalLineByLine2Q----------");
+		t.levelOrderTraversalLineByLine2Q(root);
+		
 	}
 }
