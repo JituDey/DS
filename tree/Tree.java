@@ -1,7 +1,5 @@
-import java.util.Stack;
-import java.util.Queue;
-import java.util.LinkedList;
-
+import java.util.*;
+import java.util.Map.Entry;
 class Tree{
 	static Node root;
 	
@@ -192,6 +190,32 @@ class Tree{
 		System.out.println();
 	}
 	
+	public void verticalTraversal(Node root){
+		if(root==null) return;
+		Map<Integer, LinkedList<Node>> map = new HashMap<Integer, LinkedList<Node>>();
+		verticalTraversalTree(map, root, 0);
+		Set<Entry<Integer, LinkedList<Node>>> entires = map.entrySet();
+        for(Entry<Integer, LinkedList<Node>> ent:entires){
+			System.out.print(ent.getKey()+" ==> ");
+			for(Node n : ent.getValue()){
+				System.out.print(n.data+" ");
+			}
+			System.out.println("");
+		}
+	}
+	public void verticalTraversalTree(Map<Integer, LinkedList<Node>> map, Node node, int hashVal){
+		if(node==null) return;
+		LinkedList<Node> nodes = map.get(hashVal);
+		if(nodes==null){
+			nodes=new LinkedList<Node>();
+		} 
+		nodes.add(node);
+		map.put(hashVal,nodes);
+		verticalTraversalTree(map, node.left, hashVal-1);
+		verticalTraversalTree(map, node.right, hashVal+1);
+	}
+	
+	
 	public static void main(String[] args) {
 		Tree t = new Tree();
 		t.createTree(new int[]{10,8,15,1,9,11,17});
@@ -210,5 +234,7 @@ class Tree{
 		t.levelOrderTraversalLineByLine2Q(root);
 		System.out.println("--------zigzagTraversal----------");
 		t.zigzagTraversal(root);
+		System.out.println("--------verticalTraversal----------");
+		t.verticalTraversal(root);
 	}
 }
