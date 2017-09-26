@@ -1,3 +1,6 @@
+import java.util.Queue;
+import java.util.LinkedList;
+
 class Tree{
 	static Node root;
 	
@@ -59,6 +62,49 @@ class Tree{
 		System.out.println(root.data);
 	}
 	
+	public void levelOrderTraversal(Node root){
+		if(root==null)
+			return;
+		Queue<Node> q = new LinkedList<Node>();
+		q.add(root);
+		
+		while(!q.isEmpty()){
+			Node n = q.remove();
+			System.out.print(n.data + " ");
+			if(n.left!=null){
+				q.add(n.left);
+			}
+			if(n.right!=null){
+				q.add(n.right);
+			}
+		}
+		System.out.println();
+	}
+	
+	public void levelOrderTraversalLineByLine(Node root){
+		if(root==null)
+			return;
+		Queue<Node> q = new LinkedList<Node>();
+		q.add(root);
+		q.add(null);
+		while(!q.isEmpty()){
+			Node n = q.remove();
+			if(n==null){
+				System.out.println("");
+				if(!q.isEmpty())
+					q.add(null);
+				continue;
+			}
+			System.out.print(n.data + " ");
+			if(n.left!=null){
+				q.add(n.left);
+			}
+			if(n.right!=null){
+				q.add(n.right);
+			}
+		}
+	}
+	
 	public static void main(String[] args) {
 		Tree t = new Tree();
 		t.createTree(new int[]{10,8,15,1,9,11,17});
@@ -67,5 +113,9 @@ class Tree{
 		t.preorderTraversal(root);
 		System.out.println("------------------");
 		t.postorderTraversal(root);
+		System.out.println("------------------");
+		t.levelOrderTraversal(root);
+		System.out.println("------------------");
+		t.levelOrderTraversalLineByLine(root);
 	}
 }
