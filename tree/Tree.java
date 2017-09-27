@@ -298,6 +298,44 @@ class Tree{
 		bottomViewHashImplementation(map, node.right, hashVal+1);
 	}
 	
+	public void boundaryViewOfTree(Node root){
+		if(root==null) return;
+		System.out.print(root.data+" ");
+		boundaryLeftOfTree(root.left);
+		boundaryLeavesOfTree(root.left);
+		boundaryLeavesOfTree(root.right);
+		boundaryRightOfTree(root.right);
+	}
+	
+	public void boundaryLeftOfTree(Node root){
+		if(root==null) return;
+		if(root.left!=null){
+			System.out.print(root.data+" ");
+			boundaryLeftOfTree(root.left);
+		} else if(root.right!=null){
+			System.out.print(root.data+" ");
+			boundaryLeftOfTree(root.right);
+		}
+	}
+	public void boundaryLeavesOfTree(Node root){
+		if(root==null) return;
+		boundaryLeavesOfTree(root.left);
+		if(root.left==null && root.right==null){
+			System.out.print(root.data+" ");
+		}
+		boundaryLeavesOfTree(root.right);
+	}
+	public void boundaryRightOfTree(Node root){
+		if(root==null) return;
+		if(root.right!=null){
+			System.out.print(root.data+" ");
+			boundaryLeftOfTree(root.right);
+		} else if(root.left!=null){
+			System.out.print(root.data+" ");
+			boundaryLeftOfTree(root.left);
+		}
+	}
+	
 	public static void main(String[] args) {
 		Tree t = new Tree();
 		t.createTree(new int[]{10,8,15,1,9,11,17});
@@ -327,5 +365,8 @@ class Tree{
 		System.out.println("");
 		System.out.println("--------bottomViewOfTree----------");
 		t.bottomViewOfTree(root);
+		System.out.println("");
+		System.out.println("--------boundaryViewOfTree----------");
+		t.boundaryViewOfTree(root);
 	}
 }
