@@ -215,6 +215,52 @@ class Tree{
 		verticalTraversalTree(map, node.right, hashVal+1);
 	}
 	
+	public void leftViewOfTree(Node root){
+		Queue<Node> q = new LinkedList<Node>();
+		q.add(null);
+		q.add(root);
+		while(!q.isEmpty()){
+			Node n = q.remove();
+			if(n==null){
+				if(!q.isEmpty()){
+					q.add(null);
+					System.out.print(q.peek().data +" ");
+				}
+				continue;
+			}
+			if(n.left!=null){
+				q.add(n.left);
+			}
+			if(n.right!=null){
+				q.add(n.right);
+			}
+		}
+		System.out.println("");
+	}
+	
+	public void rightViewOfTree(Node root){
+		Queue<Node> q = new LinkedList<Node>();
+		q.add(root);
+		q.add(null);
+		while(!q.isEmpty()){
+			Node n = q.remove();
+			if(n==null){
+				if(!q.isEmpty()){
+					q.add(null);
+				}
+				continue;
+			} else if(q.peek()==null){
+				System.out.print(n.data +" ");
+			}
+			if(n.left!=null){
+				q.add(n.left);
+			}
+			if(n.right!=null){
+				q.add(n.right);
+			}
+		}
+		System.out.println("");
+	}
 	
 	public static void main(String[] args) {
 		Tree t = new Tree();
@@ -236,5 +282,9 @@ class Tree{
 		t.zigzagTraversal(root);
 		System.out.println("--------verticalTraversal----------");
 		t.verticalTraversal(root);
+		System.out.println("--------leftViewOfTree----------");
+		t.leftViewOfTree(root);
+		System.out.println("--------rightViewOfTree----------");
+		t.rightViewOfTree(root);
 	}
 }
