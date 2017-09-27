@@ -262,6 +262,42 @@ class Tree{
 		System.out.println("");
 	}
 	
+	public void topViewHashImplementation(Map<Integer, Node> map, Node node, int hashVal){
+		if(node==null) return;
+		if(map.get(hashVal)==null){
+			map.put(hashVal,node);
+		} 
+		topViewHashImplementation(map, node.left, hashVal-1);
+		topViewHashImplementation(map, node.right, hashVal+1);
+	}
+	
+	public void topViewOfTree(Node root){
+		if(root==null) return;
+		Map<Integer, Node> map = new HashMap<Integer, Node>();
+		topViewHashImplementation(map, root, 0);
+		Set<Entry<Integer, Node>> entires = map.entrySet();
+        for(Entry<Integer, Node> ent:entires){
+			System.out.print(ent.getValue().data+" ");
+		}
+	}
+	
+	public void bottomViewOfTree(Node root){
+		if(root==null) return;
+		Map<Integer, Node> map = new HashMap<Integer, Node>();
+		bottomViewHashImplementation(map, root, 0);
+		Set<Entry<Integer, Node>> entires = map.entrySet();
+        for(Entry<Integer, Node> ent:entires){
+			System.out.print(ent.getValue().data+" ");
+		}
+	}
+	
+	public void bottomViewHashImplementation(Map<Integer, Node> map, Node node, int hashVal){
+		if(node==null) return;
+		map.put(hashVal,node);
+		bottomViewHashImplementation(map, node.left, hashVal-1);
+		bottomViewHashImplementation(map, node.right, hashVal+1);
+	}
+	
 	public static void main(String[] args) {
 		Tree t = new Tree();
 		t.createTree(new int[]{10,8,15,1,9,11,17});
@@ -286,5 +322,10 @@ class Tree{
 		t.leftViewOfTree(root);
 		System.out.println("--------rightViewOfTree----------");
 		t.rightViewOfTree(root);
+		System.out.println("--------topViewOfTree----------");
+		t.topViewOfTree(root);
+		System.out.println("");
+		System.out.println("--------bottomViewOfTree----------");
+		t.bottomViewOfTree(root);
 	}
 }
