@@ -335,13 +335,73 @@ class Tree{
 			boundaryLeftOfTree(root.left);
 		}
 	}
+	public void inorderIteration(Node root){
+		Node n = root;
+		Stack<Node> stack = new Stack<Node>();
+		while(true){
+			while(n!=null){
+				stack.push(n);
+				n=n.left;
+			}
+			if(!stack.isEmpty()){
+				n = stack.pop();
+				System.out.print(n.data+" ");
+				n=n.right;
+			} else {
+				break;
+			}
+		}
+	}
+	
+	public void preorderIteration(Node root){
+		Stack<Node> stack = new Stack<Node>();
+		stack.add(root);
+		while(!stack.isEmpty()){
+			Node n = stack.pop();
+			System.out.print(n.data+" ");
+			if(n.right!=null){
+				stack.add(n.right);
+			}
+			if(n.left!=null){
+				stack.add(n.left);
+			}
+		}
+		System.out.println("");
+	}
+	
+	public void diagonalTraversal(Node root){		
+		if(root==null) return;
+		Map<Integer, LinkedList<Integer>> map = new HashMap<Integer, LinkedList<Integer>>();
+		diagonalTraversalUtil(root, map, 0);
+		for(Entry<Integer, LinkedList<Integer>> ent : map.entrySet()){
+			System.out.print(ent.getValue()+" ");
+		}
+	}
+	
+	public void diagonalTraversalUtil(Node root, Map<Integer, LinkedList<Integer>> map, int val){
+		if(root==null) return;
+		LinkedList<Integer> list = map.get(val);
+		if(list==null){
+			list = new LinkedList<Integer>();
+		}
+		list.add(root.data);
+		map.put(val, list);
+		diagonalTraversalUtil(root.right, map, val);
+		diagonalTraversalUtil(root.left, map, val+1);
+	}
 	
 	public static void main(String[] args) {
 		Tree t = new Tree();
 		t.createTree(new int[]{10,8,15,1,9,11,17});
+		System.out.println("-------inorderTraversal-----------");
 		t.inorderTraversal(root);
+		System.out.println("-------inorderIteration-----------");
+		t.inorderIteration(root);
+		System.out.println("");
 		System.out.println("-------preorderTraversal-----------");
 		t.preorderTraversal(root);
+		System.out.println("-------preorderIteration-----------");
+		t.preorderIteration(root);
 		System.out.println("--------postorderTraversal----------");
 		t.postorderTraversal(root);
 		System.out.println("-------levelOrderTraversal-----------");
@@ -368,5 +428,8 @@ class Tree{
 		System.out.println("");
 		System.out.println("--------boundaryViewOfTree----------");
 		t.boundaryViewOfTree(root);
+		System.out.println("");
+		System.out.println("--------diagonalTraversal----------");
+		t.diagonalTraversal(root);
 	}
 }
