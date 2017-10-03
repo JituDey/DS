@@ -61,7 +61,7 @@ class Tree{
 		System.out.println(root.data);
 	}
 	
-	public void levelOrderTraversal(Node root){
+	public static void levelOrderTraversal(Node root){
 		if(root==null)
 			return;
 		Queue<Node> q = new LinkedList<Node>();
