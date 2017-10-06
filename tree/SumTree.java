@@ -26,9 +26,18 @@ public class SumTree {
         
 		System.out.println("========Actual tree: =============");
 		Tree.levelOrderTraversal(root);
+		System.out.println("Given tree is a SumTree: "+ ifSumTree(root));
 		System.out.println("========Converted SumTree: =============");
 		SumTree.convertToSumTree(root);
 		Tree.levelOrderTraversal(root);
+		
+		Node sumTreeNode = new Node(26);
+        sumTreeNode.left = new Node(10);
+        sumTreeNode.right = new Node(3);
+        sumTreeNode.left.left = new Node(4);
+        sumTreeNode.left.right = new Node(6);
+        sumTreeNode.right.right = new Node(3);
+		System.out.println("Given tree is a SumTree: "+ ifSumTree(sumTreeNode));
 	}
 	
 	public static int convertToSumTree(Node root) {
@@ -38,5 +47,34 @@ public class SumTree {
 		int newValueRight = convertToSumTree(root.right);
 		root.data=newValueLeft+newValueRight;
 		return oldValue+root.data;
+	}
+	/*
+		Check SumTree:
+			 26
+			/   \
+		  10     3
+		/    \     \
+	  4      6      3
+  */
+	public static boolean ifSumTree(Node root) {
+		if(root==null) return true;
+		if(root.left==null && root.right==null){
+			return true;
+		}		
+		int leftSum = sumofSubTrees(root.left);
+		int rightSum = sumofSubTrees(root.right);
+		
+		boolean isLeftSumTree = ifSumTree(root.left);
+		boolean isRightSumTree = ifSumTree(root.right);
+
+		return (root.data==leftSum+rightSum && isLeftSumTree && isRightSumTree);
+	}
+	
+	public static int sumofSubTrees(Node root) {
+		if(root==null) return 0;
+		if(root.left==null && root.right==null){
+			return root.data;
+		}
+		return root.data+sumofSubTrees(root.left)+sumofSubTrees(root.right);
 	}
 }
