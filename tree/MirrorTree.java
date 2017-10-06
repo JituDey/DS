@@ -28,6 +28,12 @@ public class MirrorTree {
 		System.out.println("mirror of actual tree: ");
 		Tree.levelOrderTraversal(mirrorRoot);
 		System.out.println("Above trees are mirror to each other : "+checkMirrorTree(root1,mirrorRoot));
+		
+		System.out.println("before conversion actual tree is : ");
+		Tree.levelOrderTraversal(root1);
+		convertMirrorTree(root1);
+		System.out.println("========converted mirror tree: =============");
+		Tree.levelOrderTraversal(root1);
 	}
 	
 	public static boolean checkMirrorTree(Node root1, Node root2) {
@@ -51,5 +57,16 @@ public class MirrorTree {
 		node.left=createMirrorTree(root.right);
 		
 		return node;
+	}
+	
+	public static void convertMirrorTree(Node root) {
+		if(root==null){
+			return;
+		} 
+		convertMirrorTree(root.left);
+		convertMirrorTree(root.right);
+		Node tmp = root.right;
+		root.right=root.left;
+		root.left=tmp;
 	}
 }

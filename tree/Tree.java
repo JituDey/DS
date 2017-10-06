@@ -390,6 +390,39 @@ class Tree{
 		diagonalTraversalUtil(root.left, map, val+1);
 	}
 	
+	public int heightOfTree(Node root){		
+		if(root==null) return 0;
+		int lHeight = heightOfTree(root.left);
+		int rHeight = heightOfTree(root.right);
+		
+		if(lHeight > rHeight){
+			return lHeight+1;
+		} else {
+			return rHeight+1;
+		}
+		
+	}
+	
+	public int maxSumPath(Node root){		
+		if(root==null) return 0;
+		int lHeight = heightOfTree(root.left);
+		int rHeight = heightOfTree(root.right);
+		
+		if(lHeight > rHeight){
+			return lHeight+1;
+		} else {
+			return rHeight+1;
+		}
+	}
+	
+	public boolean ifIdenticalTrees(Node root1, Node root2){		
+		if(root1==null && root2==null)	return true;
+		else if(root1==null && root2!=null)	return false;
+		else if(root1!=null && root2==null)	return false;
+		
+		return ((root1.data==root2.data) && ifIdenticalTrees(root1.left, root2.left) && ifIdenticalTrees(root1.right, root2.right));
+	}
+	
 	public static void main(String[] args) {
 		Tree t = new Tree();
 		t.createTree(new int[]{10,8,15,1,9,11,17});
@@ -431,5 +464,13 @@ class Tree{
 		System.out.println("");
 		System.out.println("--------diagonalTraversal----------");
 		t.diagonalTraversal(root);
+		System.out.println("\n--------heightOfTree----------\n"+ t.heightOfTree(root));
+		Node root1 = new Node(45);
+		 root1.left = new Node(35);
+		 root1.left.left = new Node(20);
+		 root1.left.right = new Node(38);
+		 root1.right = new Node(60);
+		 root1.right.left = new Node(50);
+		System.out.println("Given Trees are Identical : "+ t.ifIdenticalTrees(root,  root1));
 	}
 }

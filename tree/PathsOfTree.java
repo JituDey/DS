@@ -5,15 +5,8 @@
    / \    /
   20  38 50
 */
+import java.util.*;
 public class PathsOfTree {
-	
-	/*
-	   45
-  /    \
- 35    60
-/ \    /
-20  38 50
-*/
 	static Node targetLeaf = null;
 	public static void main(String[] args) {
 		 Node root1 = new Node(45);
@@ -28,6 +21,18 @@ public class PathsOfTree {
 		 findMaxSumOfPaths(root1);
 		 System.out.println("------Path with max sum: --------");
 		 findPathWithMaxSum(root1);
+		 
+		 System.out.println("\n------Diameter of the tree: --------");
+		 Node root = new Node(1);
+		root.left = new Node(2);
+		root.right = new Node(3);
+		root.left.left = new Node(4);
+		root.left.right = new Node(5);
+		root.left.right.left = new Node(6);
+		root.left.right.left.right = new Node(7);
+		root.left.left.left = new Node(8);
+		 System.out.println(findDiameterOfTree(root));
+		 System.out.println("This tree is a BST: "+checkBST(root1));
 	}
 	
 	public static void allPathsOfTree(Node root) {
@@ -110,5 +115,51 @@ public class PathsOfTree {
 			findTargetLeaf(sum,maxSum, root.left);
 			findTargetLeaf(sum,maxSum, root.right);
 		}
+	}
+	
+	/*
+	Maximum(Diameter of left subtree, Diameter of right subtree, Longest path between two nodes which passes through the root.)
+	Longest path between two nodes which passes through the root = 1 + height of left sub­tree + height of right subtree.
+	*/
+	public static int findDiameterOfTree(Node root) {
+		if(root==null)	return 0;
+		
+		int leftDiameter = findDiameterOfTree(root.left);
+		int rightDiameter = findDiameterOfTree(root.right);
+		
+		int leftHeight = heightOfTree(root.left);
+		int rightHeight = heightOfTree(root.right);
+		
+		return Math.max(Math.max(leftDiameter, rightDiameter), leftHeight+rightHeight+1);
+	}
+	
+	public static int heightOfTree(Node root) {
+		if(root==null) return 0;
+		return (1+Math.max(heightOfTree(root.left), heightOfTree(root.right)));
+	}
+	
+	public static boolean checkBST(Node root) {
+		if(root==null)	return true;
+		Queue<Node> queue= new LinkedList<Node>();
+		queue.add(root);
+		
+		while(!queue.isEmpty()){
+			Node node = queue.remove();
+			if(node.left!=null){
+				if(node.data>node.left.data){
+					queue.add(node.left);
+				} else{
+					return false;
+				}
+			}
+			if(node.right!=null){
+				if(node.data<node.right.data){
+					queue.add(node.right);
+				} else{
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }
